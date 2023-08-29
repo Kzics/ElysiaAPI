@@ -16,7 +16,22 @@ public class PlayerFinesController : ControllerBase
     {
         _dbContext = dbContext;
     }
-    
+
+
+    [HttpGet]
+    public async Task<ActionResult<List<PlayerFine>>> GetPlayerFines()
+    {
+        var fines = await _dbContext.PlayerFines.ToListAsync();
+
+
+        if (fines.Count == 0)
+        {
+            return NotFound();
+        }
+
+        return fines;
+    }
+
     [HttpGet("fine")]
     public async Task<ActionResult<PlayerFine>> GetPlayerFine(int id)
     {

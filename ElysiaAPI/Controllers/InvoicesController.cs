@@ -17,6 +17,20 @@ public class InvoicesController : ControllerBase
         _dbContext = dbContext;
     }
 
+
+    [HttpGet]
+    public async Task<ActionResult<List<Invoice>>> GetInvoices()
+    {
+        var invoices = await _dbContext.Invoices.ToListAsync();
+
+        if (invoices.Count == 0)
+        {
+            return NotFound("Invoices table is empty");
+        }
+
+        return invoices;
+    }
+
     [HttpGet("invoice")]
     public async Task<ActionResult<Invoice>> GetInvoice(int id)
     {

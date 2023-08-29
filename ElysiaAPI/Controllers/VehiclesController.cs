@@ -1,5 +1,6 @@
 using ElysiaAPI.Objects;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElysiaAPI.Controllers;
 
@@ -15,8 +16,20 @@ public class VehiclesController : ControllerBase
         _dbContext = dbContext;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<List<Vehicle>>> GetVehicles()
+    {
+        var vehicle = await _dbContext.Vehicles.ToListAsync();
 
-    [HttpGet("Vehicles")]
+        if (vehicle.Count == 0)
+        {
+            return NotFound();
+        }
+
+        return vehicle;
+
+    }
+    [HttpGet("vehicle-by-id")]
     public async Task<ActionResult<Vehicle>> GetVehicles(int id)
     {
         var vehicle = await _dbContext.Vehicles.FindAsync(id);

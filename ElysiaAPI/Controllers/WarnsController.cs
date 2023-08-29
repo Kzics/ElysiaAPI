@@ -14,7 +14,7 @@ public class WarnsController : ControllerBase
     }
 
 
-    [HttpGet("Warns")]
+    [HttpGet()]
     public async Task<ActionResult<List<Warn>>> GetGlobalWarns()
     {
         var globalWarns = await _dbContext.Warns.ToListAsync();

@@ -14,6 +14,9 @@ public class ElysiaDbContext : DbContext
     public DbSet<PlayerFine> PlayerFines { get; set; }
     public DbSet<Bizs> Bizs { get; set; }
     public DbSet<Warn> Warns { get; set; }
+    public DbSet<SMS> SMS { get; set; }
+    public DbSet<Character> Characters { get; set; }
+    public DbSet<Contact> Contacts { get; set; }
 
     public ElysiaDbContext(DbContextOptions<ElysiaDbContext> options)
         : base(options)
@@ -27,5 +30,8 @@ public class ElysiaDbContext : DbContext
         modelBuilder.Entity<PlayerFine>().HasKey(fine => fine.FineId);
         modelBuilder.Entity<Invoice>().HasKey(invoice => invoice.InvoiceId);
         modelBuilder.Entity<Bizs>().HasKey(bizs => bizs.Id);
+        modelBuilder.Entity<Character>().HasKey(character => character.Id);
+        modelBuilder.Entity<SMS>().HasKey(sms => sms.Id);
+        modelBuilder.Entity<Contact>().HasKey(contact => contact.Id);
     }
 }

@@ -15,7 +15,7 @@ public class VehicleInfosController : ControllerBase
         _dbContext = dbContext;
     }
 
-    [HttpGet("VehicleInfo")]
+    [HttpGet("vehicleInfo-by-id")]
     public async Task<ActionResult<VehicleInfo>> GetVehicleInfo(int vehicleId)
     {
         var vehicleInfo = await _dbContext.VehicleInfos.FindAsync(vehicleId);

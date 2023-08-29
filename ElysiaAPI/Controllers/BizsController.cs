@@ -1,5 +1,5 @@
 using ElysiaAPI.Objects;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +21,7 @@ public class BizsController : ControllerBase
     public async Task<ActionResult<List<Bizs>>> GetBizs()
     {
         var bizs = await _dbContext.Bizs.ToListAsync();
-
+        
         if (bizs.Count == 0)
         {
             return NotFound();
@@ -30,7 +30,7 @@ public class BizsController : ControllerBase
         return bizs;
     }
     
-    [HttpGet("Biz-by-id")]
+    [HttpGet("biz-by-id")]
     public async Task<ActionResult<Bizs>> GetBiz(int id)
     {
         var biz = await _dbContext.Bizs.FindAsync(id);

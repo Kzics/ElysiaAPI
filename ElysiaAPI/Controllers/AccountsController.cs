@@ -1,4 +1,5 @@
 using ElysiaAPI.Objects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ public class AccountsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Account>>> GetAccounts()
     {
+        /*var token = Request.Headers["Authorization"].ToString();
+
+        if (!token.Equals("key")) return NotFound();*/
         var account = await _dbContext.Accounts.ToListAsync();
 
         if (account.Count == 0)

@@ -1,5 +1,4 @@
 using ElysiaAPI.Objects;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,9 +19,6 @@ public class AccountsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Account>>> GetAccounts()
     {
-        /*var token = Request.Headers["Authorization"].ToString();
-
-        if (!token.Equals("key")) return NotFound();*/
         var account = await _dbContext.Accounts.ToListAsync();
 
         if (account.Count == 0)
@@ -34,9 +30,10 @@ public class AccountsController : ControllerBase
     }
 
     [HttpGet("account")]
-    public async Task<ActionResult<Account>> GetAccount(int accountId)
+    public async Task<ActionResult<Account>> GetAccount(string steamId)
     {
-        var account = await _dbContext.Accounts.FindAsync(accountId);
+        var account = await _dbContext.Accounts.Where(acc => acc.SteamId == steamId)
+            .FirstOrDefaultAsync();
 
         if (account == null)
         {
@@ -46,15 +43,15 @@ public class AccountsController : ControllerBase
         return account;
     }
     
-    [HttpPost("accounts-by-ids")]
-    public async Task<ActionResult<List<Account>>> GetAccountsByIds([FromBody] List<int> accountIds)
+    [HttpPost("accounts")]
+    public async Task<ActionResult<List<Account>>> GetAccountsByIds([FromBody] List<int> steamIds)
     {
-        if (accountIds.Count == 0)
+        if (steamIds.Count == 0)
         {
             return BadRequest("Invalid request");
         }
 
-        var accounts = await _dbContext.Accounts.Where(a => accountIds.Contains(a.Id)).ToListAsync();
+        var accounts = await _dbContext.Accounts.Where(a => steamIds.Contains(a.Id)).ToListAsync();
 
         if (accounts.Count == 0)
         {
